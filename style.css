@@ -1,0 +1,1003 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', 'Arial', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #f4f6f5;
+}
+
+/* Updated Navbar Styles */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background-color: #0c440f;
+  color: white;
+  height: 80px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1;
+}
+
+.navbar::after {
+  content: '';
+  position: absolute;
+  bottom: -30px;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background-color: #0c440f;
+  border-radius: 0 0 50% 50%;
+  z-index: -1;
+}
+
+/* Navbar Left Section */
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-links a {
+  color: #d2cfcf;
+  text-decoration: none;
+  font-size: 20px;
+  font-family: poppins, sans-serif;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #cdf295;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.logo i {
+  margin-right: 10px;
+  color: white;
+}
+
+.store-heading {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1.8rem;
+  color: white;
+  margin: 0;
+}
+
+/* Navbar Center Section - Search Bar */
+.navbar-center {
+  flex: 1;
+  display: flex;
+  margin-top: auto;
+  justify-content: center;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.search {
+  width: 350px;
+  padding: 10px 40px 10px 15px;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  outline: none;
+}
+
+.search::placeholder {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #888;
+  text-align: center;
+}
+
+.search-container i {
+  position: absolute;
+  right: 15px;
+  color: #888;
+  cursor: pointer;
+}
+
+/* Navbar Right Section */
+.navbar-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cart-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cart-profile a {
+  color: white;
+  font-size: 1.5rem;
+  text-decoration: none;
+}
+
+.cart-profile i {
+  color: #fff;
+  font-size: 20px;
+}
+
+/* Hero Section */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background-color: #f4f9f4;
+  margin-top: 10px;
+}
+
+.hero-text {
+  flex: 1;
+  padding: 1rem;
+}
+
+.hero-text h1 {
+  font-size: 2.5rem;
+  color: #2e7d32;
+  margin-bottom: 0.6rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+}
+
+.hero-subtitle {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 1.4rem;
+  line-height: 1.6;
+  font-family: 'Poppins', sans-serif;
+  max-width: 480px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.shop-btn {
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #003f26;
+  background: linear-gradient(135deg, #b1f255, #8bc34a);
+  padding: 12px 26px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(139,195,74,0.4);
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.shop-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(139,195,74,0.5);
+}
+
+.learn-btn {
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #2e7d32;
+  background: transparent;
+  padding: 12px 26px;
+  border: 2px solid #4caf50;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.learn-btn:hover {
+  background: #4caf50;
+  color: white;
+  transform: translateY(-3px);
+}
+
+.hero-stats {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-number {
+  font-size: 1.4em;
+  font-weight: 700;
+  color: #2e7d32;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #888;
+  font-weight: 500;
+}
+
+.hero-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-left: -10px;
+  margin-top: -20px;
+}
+
+.hero-image img {
+  max-width: 400px;
+  height: auto;
+  border-radius: 10px;
+}
+
+/* Category Section */
+.category-section {
+  text-align: center;
+  padding: 50px 20px;
+  background-color: #f9f9f9;
+}
+
+.category-section h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2em;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.section-subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1em;
+  color: #888;
+  margin-bottom: 28px;
+}
+
+.card-badge {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 5px 14px;
+  background: linear-gradient(135deg, #4caf50, #388e3c);
+  color: white;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.learn-badge {
+  background: linear-gradient(135deg, #2196f3, #1565c0);
+}
+
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.category {
+  background-color:  #f4f9f4;;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  width: 280px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.category a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.category a:hover {
+  text-decoration: none;
+}
+
+.category img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.category h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5em;
+  color: #003f26;
+  margin-bottom: 10px;
+}
+
+.category p {
+  font-family: Arial, sans-serif;
+  font-size: 1em;
+  color: #555;
+  line-height: 1.5;
+  margin: 10px 0;
+}
+
+/* Content Section - Different background */
+.content-section {
+  background-color: #f4f9f4;
+  padding: 5px 20px;
+}
+
+.footer {
+  background: darkslategrey;
+  color: #fff;
+  padding: 40px 0 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 30px;
+}
+
+
+.footer-section h4 {
+  color: #c8e6c9;
+  font-size: 18px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.footer-logo i {
+  font-size: 24px;
+  color: #81c784;
+}
+
+.footer-logo h3 {
+  color: #e8f5e8;
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.company-tagline {
+  color: #c8e6c9;
+  line-height: 1.6;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 12px;
+}
+
+.footer-section ul li a {
+  color: #c8e6c9;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+  color: #a5d6a7;
+}
+
+.footer-section p {
+  color: #c8e6c9;
+  font-size: 14px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-section p i {
+  color: #81c784;
+  width: 16px;
+}
+
+.social-links {
+  display: flex;
+  gap: 15px;
+}
+
+.social-links a {
+  color: #c8e6c9;
+  font-size: 20px;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-links a:hover {
+  color: #81c784;
+  transform: translateY(-2px);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(200, 230, 201, 0.2);
+  padding: 20px 0;
+  text-align: center;
+}
+
+.copyright {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.copyright p {
+  margin: 8px 0;
+  color: #c8e6c9;
+  font-size: 13px;
+}
+
+.legal-links a {
+  color: #a5d6a7;
+  text-decoration: none;
+  margin: 0 5px;
+  transition: color 0.3s ease;
+}
+
+.legal-links a:hover {
+  color: #e8f5e8;
+}
+
+/* Footer Responsive Design */
+@media (max-width: 1024px) {
+  .footer-content {
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 25px;
+    text-align: center;
+  }
+
+  .footer-logo {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 30px 0 0;
+  }
+
+  .footer-content {
+    padding: 0 15px;
+  }
+
+  .footer-logo h3 {
+    font-size: 20px;
+  }
+
+  .social-links {
+    justify-content: center;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .search {
+    width: 280px;
+  }
+  
+  .categories {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    height: auto;
+    padding: 1rem;
+    gap: 15px;
+  }
+
+  .navbar-left, 
+  .navbar-center, 
+  .navbar-right {
+    flex: none;
+    width: 100%;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .nav-links {
+    gap: 20px;
+  }
+
+  .navbar-left {
+    justify-content: center;
+  }
+
+  .store-heading {
+    font-size: 1.5rem;
+  }
+
+  .search {
+    width: 250px;
+  }
+
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    margin-top: 60px;
+  }
+
+  .hero-text h1 {
+    font-size: 2rem;
+  }
+
+  .categories {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .category {
+    width: 90%;
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0.5rem;
+  }
+
+  .store-heading {
+    font-size: 1.2rem;
+  }
+
+  .search {
+    width: 200px;
+    font-size: 12px;
+  }
+
+  .hero-text h1 {
+    font-size: 1.5rem;
+  }
+
+  .category-section h2 {
+    font-size: 1.5em;
+  }
+}
+
+.daily-rewards-section {
+  background: linear-gradient(135deg, #e8f5e8, #f1f8e9);
+  padding: 50px 20px;
+  margin: 40px 0;
+}
+
+.daily-rewards-section h2 {
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.5em;
+  color: #2e7d32;
+  margin-bottom: 40px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.rewards-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+}
+
+.rewards-calendar {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  backdrop-filter: blur(10px);
+}
+
+.reward-day {
+  background: linear-gradient(135deg, #ffffff, #f8f9fa);
+  border: 2px solid #e0e0e0;
+  border-radius: 15px;
+  padding: 20px;
+  width: 140px;
+  height: 160px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.reward-day::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #4caf50, #81c784);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.reward-day:hover::before {
+  transform: scaleX(1);
+}
+
+.reward-day.active {
+  background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
+  border-color: #4caf50;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.reward-day.claimed {
+  background: linear-gradient(135deg, #e8f5e8, #dcedc8);
+  border-color: #8bc34a;
+  opacity: 0.8;
+}
+
+.reward-day.locked {
+  background: linear-gradient(135deg, #f5f5f5, #eeeeee);
+  border-color: #bdbdbd;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.day-number {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.reward-day.active .day-number {
+  color: #2e7d32;
+}
+
+.reward-icon {
+  font-size: 24px;
+  margin: 8px 0;
+  transition: transform 0.3s ease;
+}
+
+.reward-day.active .reward-icon {
+  color: #4caf50;
+  animation: bounce 1s ease-in-out infinite;
+}
+
+.reward-day.claimed .reward-icon {
+  color: #8bc34a;
+}
+
+.reward-day.locked .reward-icon {
+  color: #bdbdbd;
+}
+
+.reward-text {
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #555;
+  margin: 5px 0;
+}
+
+.reward-day.active .reward-text {
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.reward-status {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.reward-status.available {
+  background: linear-gradient(90deg, #4caf50, #66bb6a);
+  color: white;
+  animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+.reward-status.claimed {
+  background: linear-gradient(90deg, #8bc34a, #9ccc65);
+  color: white;
+}
+
+.reward-status.locked {
+  background: #bdbdbd;
+  color: white;
+}
+
+.eco-points-balance {
+  background: linear-gradient(135deg, #ffffff, #f8f9fa);
+  border-radius: 20px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  border: 2px solid #e8f5e8;
+  min-width: 300px;
+}
+
+.streak-info {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: #ff8f00;
+  font-weight: 600;
+  margin: 10px 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.eco-points-balance h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5em;
+  color: #2e7d32;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.eco-points-balance h3 i {
+  color: #ffc107;
+  font-size: 1.2em;
+}
+
+.points-count {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.5em;
+  font-weight: 700;
+  color: #1b5e20;
+  margin: 20px 0;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.redeem-btn {
+  background: linear-gradient(135deg, #4caf50, #66bb6a);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.redeem-btn:hover {
+  background: linear-gradient(135deg, #388e3c, #4caf50);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.rewards-description {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.rewards-description p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  color: #555;
+  line-height: 1.6;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 20px;
+  border-radius: 15px;
+  border-left: 4px solid #4caf50;
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% {
+    transform: translateY(-5px) scale(1);
+  }
+  50% {
+    transform: translateY(-5px) scale(1.05);
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-8px);
+  }
+  60% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+  }
+  to {
+    box-shadow: 0 0 15px rgba(76, 175, 80, 0.8);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(60px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Responsive Design for Daily Rewards */
+@media (max-width: 1024px) {
+  .rewards-calendar {
+    gap: 15px;
+  }
+  
+  .reward-day {
+    width: 120px;
+    height: 140px;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .daily-rewards-section h2 {
+    font-size: 2em;
+  }
+  
+  .rewards-calendar {
+    gap: 10px;
+    padding: 15px;
+  }
+  
+  .reward-day {
+    width: 100px;
+    height: 120px;
+    padding: 10px;
+  }
+  
+  .reward-icon {
+    font-size: 20px;
+  }
+  
+  .reward-text {
+    font-size: 10px;
+  }
+  
+  .eco-points-balance {
+    min-width: 250px;
+    padding: 20px;
+  }
+  
+  .points-count {
+    font-size: 2em;
+  }
+}
+
+@media (max-width: 480px) {
+  .rewards-calendar {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .reward-day {
+    width: 80%;
+    max-width: 200px;
+    height: auto;
+    padding: 15px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .day-number {
+    margin-bottom: 0;
+  }
+  
+  .reward-icon {
+    margin: 0;
+  }
+  
+  .eco-points-balance {
+    min-width: 200px;
+  }
+  
+  .daily-rewards-section h2 {
+    font-size: 1.8em;
+  }
+}

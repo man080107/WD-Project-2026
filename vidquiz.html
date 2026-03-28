@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vid Quiz – Planet Playground</title>
+  <meta name="description" content="Watch eco videos and answer questions to earn Eco Points on Planet Playground.">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { background: linear-gradient(135deg, #fff3e0, #e8f5e8); min-height: 100vh; font-family: 'Poppins', sans-serif; }
+    .vq-container { max-width: 820px; margin: 30px auto; padding: 20px; }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: #e65100; text-decoration: none; font-weight: 600; margin-bottom: 20px;
+      background: white; padding: 10px 20px; border-radius: 25px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1); transition: all 0.3s;
+    }
+    .back-btn:hover { background: #ff9800; color: white; transform: translateX(-4px); }
+    .vq-card {
+      background: white; border-radius: 24px; padding: 36px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.12); margin-bottom: 24px;
+    }
+    .vq-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+    .vq-title { font-size: 1.5em; color: #e65100; font-weight: 700; }
+    .vq-meta { display: flex; gap: 14px; }
+    .meta-badge { background: #fff3e0; color: #e65100; padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+    .video-wrap {
+      width: 100%; aspect-ratio: 16/9; border-radius: 16px; overflow: hidden; margin-bottom: 28px;
+      border: 3px solid #ffe0b2;
+      background: #111; display: flex; align-items: center; justify-content: center;
+    }
+    .video-wrap iframe { width: 100%; height: 100%; border: none; }
+    .video-info {
+      background: #fff3e0; border-radius: 14px; padding: 16px 20px;
+      margin-bottom: 24px; border-left: 4px solid #ff9800;
+    }
+    .video-info h3 { color: #e65100; font-size: 1.1em; margin-bottom: 4px; }
+    .video-info p { color: #888; font-size: 13px; }
+    .progress-bar-wrap { background: #e0e0e0; border-radius: 10px; height: 8px; margin-bottom: 24px; overflow: hidden; }
+    .progress-bar { background: linear-gradient(90deg, #ff9800, #ffc107); height: 100%; border-radius: 10px; transition: width 0.4s ease; }
+    .question-num { font-size: 13px; color: #999; margin-bottom: 8px; font-weight: 500; }
+    .question-text { font-size: 1.15em; color: #222; font-weight: 600; line-height: 1.5; margin-bottom: 20px; }
+    .options { display: flex; flex-direction: column; gap: 12px; }
+    .option-btn {
+      width: 100%; text-align: left; padding: 14px 20px;
+      background: #fafafa; border: 2px solid #e0e0e0;
+      border-radius: 14px; font-family: 'Poppins', sans-serif;
+      font-size: 14px; cursor: pointer; transition: all 0.25s;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .option-btn:hover:not(:disabled) { background: #fff3e0; border-color: #ff9800; transform: translateX(6px); }
+    .option-btn.correct { background: #e8f5e8; border-color: #4caf50; color: #2e7d32; }
+    .option-btn.wrong { background: #ffebee; border-color: #ef5350; color: #c62828; }
+    .option-btn:disabled { cursor: default; }
+    .option-letter {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: #e0e0e0; display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 13px; flex-shrink: 0;
+    }
+    .option-btn.correct .option-letter { background: #4caf50; color: white; }
+    .option-btn.wrong .option-letter { background: #ef5350; color: white; }
+    .explanation {
+      margin-top: 14px; padding: 14px; background: #fff3e0; border-radius: 12px;
+      border-left: 4px solid #ff9800; font-size: 13px; color: #444; line-height: 1.6;
+      display: none;
+    }
+    .next-btn {
+      margin-top: 22px; width: 100%; padding: 15px;
+      background: linear-gradient(135deg, #ff9800, #e65100);
+      color: white; border: none; border-radius: 14px; cursor: pointer;
+      font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 15px;
+      transition: all 0.3s; display: none;
+    }
+    .next-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,152,0,0.4); }
+    .result-card { text-align: center; }
+    .result-icon { font-size: 4rem; margin-bottom: 14px; }
+    .result-score { font-size: 2.5em; font-weight: 700; color: #e65100; }
+    .result-label { color: #555; margin: 10px 0 20px; }
+    .result-points { font-size: 1.3em; font-weight: 700; color: #4caf50; margin-bottom: 24px; }
+    .result-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-orange { padding: 13px 28px; background: linear-gradient(135deg,#ff9800,#e65100); color:white; border:none; border-radius:25px; cursor:pointer; font-family:'Poppins',sans-serif; font-weight:600; font-size:14px; transition:all 0.3s; }
+    .btn-light { padding: 13px 28px; background:#fff3e0; color:#e65100; border:2px solid #ff9800; border-radius:25px; cursor:pointer; font-family:'Poppins',sans-serif; font-weight:600; font-size:14px; transition:all 0.3s; }
+    .btn-orange:hover, .btn-light:hover { transform:translateY(-2px); box-shadow:0 6px 15px rgba(0,0,0,0.15); }
+    .round-indicator { display: flex; gap: 10px; justify-content: center; margin-bottom: 24px; }
+    .round-dot { width: 12px; height: 12px; border-radius: 50%; background: #e0e0e0; transition: all 0.3s; }
+    .round-dot.active { background: #ff9800; transform: scale(1.3); }
+    .round-dot.done { background: #4caf50; }
+  </style>
+</head>
+<body>
+  <div class="vq-container">
+    <a href="SIH.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+
+    <div class="vq-card">
+      <div class="vq-header">
+        <div class="vq-title"><i class="fa-solid fa-video" style="color:#ff9800;"></i> Vid Quiz</div>
+        <div class="vq-meta">
+          <div class="meta-badge"><i class="fa-solid fa-coins"></i> +20 Eco Points</div>
+          <div class="meta-badge"><i class="fa-solid fa-star"></i> <span id="score-display">0</span> pts</div>
+        </div>
+      </div>
+
+      <div class="round-indicator" id="round-indicator"></div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar" id="progress-bar" style="width:0%"></div>
+      </div>
+
+      <div id="video-section">
+        <div class="video-wrap">
+          <iframe id="video-frame" src="" allowfullscreen title="Eco Learning Video"></iframe>
+        </div>
+        <div class="video-info">
+          <h3 id="video-title">Loading…</h3>
+          <p id="video-hint">Watch the video above, then answer the question below!</p>
+        </div>
+        <div class="question-num" id="question-num">Question 1 of 6</div>
+        <div class="question-text" id="question-text">Loading…</div>
+        <div class="options" id="options-container"></div>
+        <div class="explanation" id="explanation"></div>
+        <button class="next-btn" id="next-btn" onclick="nextQuestion()">
+          Next <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+
+      <div id="result-area" style="display:none;" class="result-card">
+        <div class="result-icon" id="result-icon">🎬</div>
+        <div class="result-score" id="result-score">0/6</div>
+        <div class="result-label" id="result-label"></div>
+        <div class="result-points" id="result-points"></div>
+        <div class="result-actions">
+          <button class="btn-orange" onclick="restart()"><i class="fa-solid fa-rotate"></i> Try Again</button>
+          <button class="btn-light" onclick="window.location.href='SIH.html'"><i class="fa-solid fa-house"></i> Home</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const rounds = [
+      {
+        videoId: 'sH5s5e33VE8', // What is Climate Change
+        videoTitle: '🌡️ What is Climate Change?',
+        q: 'What is the primary driver of current climate change?',
+        opts: ['Volcanic eruptions','Human greenhouse gas emissions','Solar activity','Ocean currents'],
+        ans: 1,
+        exp: 'Human activities — burning fossil fuels, deforestation — are the main driver of modern climate change.'
+      },
+      {
+        videoId: 'X1xIDZNzfwg', // Recycling basics
+        videoTitle: '♻️ The Importance of Recycling',
+        q: 'Which bin should glass bottles go into?',
+        opts: ['General waste','Compost / organic','Recycling bin','Hazardous waste'],
+        ans: 2,
+        exp: 'Glass can be recycled indefinitely without loss of quality — it always goes in the recycling bin!'
+      },
+      {
+        videoId: 'oJAbATJCugs', // Ocean pollution
+        videoTitle: '🌊 Ocean Pollution Crisis',
+        q: 'What is the "Great Pacific Garbage Patch"?',
+        opts: [
+          'A marine nature reserve',
+          'A large area of ocean filled with plastic debris',
+          'An underwater mountain range',
+          'A type of algae bloom'
+        ],
+        ans: 1,
+        exp: 'The Great Pacific Garbage Patch is a massive collection of plastic debris in the North Pacific Ocean.'
+      },
+      {
+        videoId: '5YZhiFXVyiM', // Deforestation
+        videoTitle: '🌳 Deforestation and Its Effects',
+        q: 'How many trees are cut down every year?',
+        opts: ['500 million','5 billion','15 billion','50 billion'],
+        ans: 2,
+        exp: 'About 15 billion trees are cut down each year — we need to plant trees and protect forests urgently!'
+      },
+      {
+        videoId: 'nH2NSpFjL0s', // Renewable energy
+        videoTitle: '⚡ Renewable Energy Explained',
+        q: 'Which renewable energy source generates the most electricity globally?',
+        opts: ['Solar','Wind','Hydropower','Geothermal'],
+        ans: 2,
+        exp: 'Hydropower (energy from flowing water) currently generates the most renewable electricity worldwide.'
+      },
+      {
+        videoId: 'wbR-5mHI6bo', // Biodiversity
+        videoTitle: '🦋 Why Biodiversity Matters',
+        q: 'Which is the BIGGEST threat to biodiversity?',
+        opts: ['Natural disasters','Habitat destruction','Hunting','Climate change'],
+        ans: 1,
+        exp: 'Habitat destruction — mainly from deforestation and urban expansion — is the #1 threat to biodiversity.'
+      }
+    ];
+
+    let current = 0, score = 0;
+
+    function buildRoundIndicator() {
+      const ind = document.getElementById('round-indicator');
+      ind.innerHTML = '';
+      rounds.forEach((_, i) => {
+        const dot = document.createElement('div');
+        dot.className = 'round-dot' + (i === 0 ? ' active' : '');
+        dot.id = 'dot-' + i;
+        ind.appendChild(dot);
+      });
+    }
+
+    function loadRound() {
+      const r = rounds[current];
+      document.getElementById('question-num').textContent = `Question ${current + 1} of ${rounds.length}`;
+      document.getElementById('progress-bar').style.width = `${(current / rounds.length) * 100}%`;
+      document.getElementById('video-title').textContent = r.videoTitle;
+      document.getElementById('video-frame').src = `https://www.youtube.com/embed/${r.videoId}?rel=0&modestbranding=1`;
+      document.getElementById('question-text').textContent = r.q;
+      document.getElementById('explanation').style.display = 'none';
+      document.getElementById('next-btn').style.display = 'none';
+
+      // Update round dots
+      for (let i = 0; i < rounds.length; i++) {
+        const dot = document.getElementById('dot-' + i);
+        dot.className = 'round-dot' + (i < current ? ' done' : i === current ? ' active' : '');
+      }
+
+      const container = document.getElementById('options-container');
+      container.innerHTML = '';
+      const letters = ['A','B','C','D'];
+      r.opts.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.id = 'vopt-' + i;
+        btn.innerHTML = `<span class="option-letter">${letters[i]}</span> ${opt}`;
+        btn.onclick = () => selectAnswer(i);
+        container.appendChild(btn);
+      });
+    }
+
+    function selectAnswer(selected) {
+      const r = rounds[current];
+      const btns = document.querySelectorAll('.option-btn');
+      btns.forEach(b => b.disabled = true);
+      if (selected === r.ans) {
+        btns[selected].classList.add('correct');
+        score++;
+        document.getElementById('score-display').textContent = score;
+      } else {
+        btns[selected].classList.add('wrong');
+        btns[r.ans].classList.add('correct');
+      }
+      const exp = document.getElementById('explanation');
+      exp.textContent = '💡 ' + r.exp;
+      exp.style.display = 'block';
+      document.getElementById('next-btn').style.display = 'block';
+      document.getElementById('next-btn').textContent = current < rounds.length - 1 ? 'Next ▶' : 'See Results 🎉';
+    }
+
+    function nextQuestion() {
+      current++;
+      if (current < rounds.length) {
+        loadRound();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      document.getElementById('video-section').style.display = 'none';
+      document.getElementById('result-area').style.display = 'block';
+      document.getElementById('progress-bar').style.width = '100%';
+
+      // Freeze video
+      document.getElementById('video-frame').src = '';
+
+      const pct = (score / rounds.length) * 100;
+      let icon = '🌱', label = 'Keep watching and learning!', pts = score * 3;
+      if (pct === 100) { icon = '🏆'; label = 'Perfect! You\'re a true Eco Hero!'; pts = 20; }
+      else if (pct >= 67) { icon = '🌟'; label = 'Great eco video knowledge!'; pts = 15; }
+      else if (pct >= 50) { icon = '😊'; label = 'Good job! Watch the videos again for better results.'; pts = 10; }
+
+      document.getElementById('result-icon').textContent = icon;
+      document.getElementById('result-score').textContent = score + '/' + rounds.length;
+      document.getElementById('result-label').textContent = label;
+      document.getElementById('result-points').textContent = '+' + pts + ' Eco Points Earned!';
+
+      // Save score — MongoDB if logged in, else localStorage
+      saveScoreToDb(score, rounds.length, pts);
+
+      // Mark all dots done
+      for (let i = 0; i < rounds.length; i++) {
+        document.getElementById('dot-' + i).className = 'round-dot done';
+      }
+    }
+
+    function restart() {
+      current = 0; score = 0;
+      document.getElementById('score-display').textContent = 0;
+      document.getElementById('video-section').style.display = 'block';
+      document.getElementById('result-area').style.display = 'none';
+      buildRoundIndicator();
+      loadRound();
+    }
+
+    buildRoundIndicator();
+    loadRound();
+  </script>
+
+  <!-- MongoDB API score saving -->
+  <script>
+    window.saveScoreToDb = async function(score, total, pts) {
+      const saved = parseInt(localStorage.getItem('ecoPoints') || 0);
+      localStorage.setItem('ecoPoints', saved + pts);
+      const token = localStorage.getItem('ppToken');
+      if (!token) return;
+      try {
+        await fetch('/api/quizScore', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+          body: JSON.stringify({ quizType: 'vid-quiz', score, total, pointsEarned: pts })
+        });
+        console.log('Vid Quiz score saved to MongoDB ✅');
+      } catch(e) {
+        console.warn('MongoDB score save skipped:', e.message);
+      }
+    };
+  </script>
+</body>
+</html>

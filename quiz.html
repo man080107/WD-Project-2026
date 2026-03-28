@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quiz – Planet Playground</title>
+  <meta name="description" content="Test your environmental knowledge with Planet Playground's eco quiz and earn Eco Points.">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { background: linear-gradient(135deg, #e8f5e8, #f1f8e9); min-height: 100vh; }
+    .quiz-container {
+      max-width: 720px; margin: 40px auto; padding: 20px;
+      font-family: 'Poppins', sans-serif;
+    }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: #2e7d32; text-decoration: none; font-weight: 600; margin-bottom: 20px;
+      background: white; padding: 10px 20px; border-radius: 25px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1); transition: all 0.3s;
+    }
+    .back-btn:hover { background: #4caf50; color: white; transform: translateX(-4px); }
+    .quiz-card {
+      background: white; border-radius: 24px; padding: 36px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+    }
+    .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
+    .quiz-title { font-size: 1.6em; color: #2e7d32; font-weight: 700; }
+    .quiz-meta { display: flex; gap: 20px; }
+    .meta-item {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 14px; color: #666; background: #f1f8e9; padding: 8px 14px; border-radius: 20px;
+    }
+    .meta-item i { color: #4caf50; }
+    .progress-bar-wrap { background: #e0e0e0; border-radius: 10px; height: 8px; margin-bottom: 28px; overflow: hidden; }
+    .progress-bar { background: linear-gradient(90deg, #4caf50, #81c784); height: 100%; border-radius: 10px; transition: width 0.4s ease; }
+    .question-num { font-size: 13px; color: #999; margin-bottom: 8px; font-weight: 500; }
+    .question-text { font-size: 1.2em; color: #222; font-weight: 600; line-height: 1.5; margin-bottom: 24px; }
+    .options { display: flex; flex-direction: column; gap: 12px; }
+    .option-btn {
+      width: 100%; text-align: left; padding: 16px 20px;
+      background: #fafafa; border: 2px solid #e0e0e0;
+      border-radius: 14px; font-family: 'Poppins', sans-serif;
+      font-size: 14px; cursor: pointer; transition: all 0.25s;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .option-btn:hover:not(:disabled) { background: #f1f8e9; border-color: #4caf50; transform: translateX(6px); }
+    .option-btn.correct { background: #e8f5e8; border-color: #4caf50; color: #2e7d32; }
+    .option-btn.wrong { background: #ffebee; border-color: #ef5350; color: #c62828; }
+    .option-btn:disabled { cursor: default; }
+    .option-letter {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: #e0e0e0; display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 13px; flex-shrink: 0; transition: all 0.25s;
+    }
+    .option-btn.correct .option-letter { background: #4caf50; color: white; }
+    .option-btn.wrong .option-letter { background: #ef5350; color: white; }
+    .explanation {
+      margin-top: 16px; padding: 16px; background: #f1f8e9; border-radius: 12px;
+      border-left: 4px solid #4caf50; font-size: 13px; color: #444; line-height: 1.6;
+      display: none;
+    }
+    .next-btn {
+      margin-top: 24px; width: 100%; padding: 15px;
+      background: linear-gradient(135deg, #4caf50, #388e3c);
+      color: white; border: none; border-radius: 14px; cursor: pointer;
+      font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 15px;
+      transition: all 0.3s; display: none;
+    }
+    .next-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(76,175,80,0.4); }
+    .result-card { text-align: center; }
+    .result-icon { font-size: 4rem; margin-bottom: 16px; }
+    .result-score { font-size: 2.5em; font-weight: 700; color: #2e7d32; }
+    .result-label { font-size: 1.1em; color: #555; margin-bottom: 24px; }
+    .result-points { font-size: 1.3em; font-weight: 600; color: #ff8f00; margin-bottom: 28px; }
+    .result-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .result-actions button {
+      padding: 13px 28px; border-radius: 25px; border: none; cursor: pointer;
+      font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px; transition: all 0.3s;
+    }
+    .btn-retry { background: linear-gradient(135deg,#4caf50,#388e3c); color: white; }
+    .btn-home { background: #f1f8e9; color: #2e7d32; border: 2px solid #4caf50; }
+    .btn-retry:hover, .btn-home:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.15); }
+    .timer-ring { position: relative; display: inline-flex; }
+    #timer-text { font-size: 14px; font-weight: 700; color: #2e7d32; }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <a href="SIH.html" class="back-btn" id="back-home">
+      <i class="fa-solid fa-arrow-left"></i> Back to Home
+    </a>
+
+    <div class="quiz-card" id="quiz-card">
+      <!-- Header -->
+      <div class="quiz-header">
+        <div class="quiz-title"><i class="fa-solid fa-brain" style="color:#4caf50;"></i> Eco Quiz</div>
+        <div class="quiz-meta">
+          <div class="meta-item"><i class="fa-solid fa-star"></i> <span id="score-display">0</span> pts</div>
+          <div class="meta-item"><i class="fa-solid fa-clock"></i> <span id="timer-text">20s</span></div>
+        </div>
+      </div>
+
+      <!-- Progress -->
+      <div class="progress-bar-wrap">
+        <div class="progress-bar" id="progress-bar" style="width:0%"></div>
+      </div>
+
+      <!-- Question Area -->
+      <div id="quiz-content">
+        <div class="question-num" id="question-num">Question 1 of 10</div>
+        <div class="question-text" id="question-text">Loading…</div>
+        <div class="options" id="options-container"></div>
+        <div class="explanation" id="explanation"></div>
+        <button class="next-btn" id="next-btn" onclick="nextQuestion()">
+          Next Question <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- Result Area -->
+      <div id="result-area" style="display:none;" class="result-card">
+        <div class="result-icon" id="result-icon">🌍</div>
+        <div class="result-score" id="result-score">0/10</div>
+        <div class="result-label" id="result-label">Great effort!</div>
+        <div class="result-points" id="result-points">+0 Eco Points Earned!</div>
+        <div class="result-actions">
+          <button class="btn-retry" onclick="restartQuiz()"><i class="fa-solid fa-rotate"></i> Try Again</button>
+          <button class="btn-home" onclick="window.location.href='SIH.html'"><i class="fa-solid fa-house"></i> Home</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        q: "What percentage of Earth's surface is covered by oceans?",
+        opts: ["51%","61%","71%","81%"],
+        ans: 2,
+        exp: "Oceans cover approximately 71% of Earth's surface, making our planet mostly water!"
+      },
+      {
+        q: "Which gas is primarily responsible for the greenhouse effect?",
+        opts: ["Oxygen (O₂)","Carbon Dioxide (CO₂)","Nitrogen (N₂)","Hydrogen (H₂)"],
+        ans: 1,
+        exp: "Carbon Dioxide (CO₂) is the main driver of the greenhouse effect, trapping heat in the atmosphere."
+      },
+      {
+        q: "How many years does a plastic bottle take to decompose?",
+        opts: ["10 years","100 years","450 years","1000 years"],
+        ans: 2,
+        exp: "A plastic bottle takes approximately 450 years to fully decompose in a landfill."
+      },
+      {
+        q: "Which of these is a renewable energy source?",
+        opts: ["Coal","Natural Gas","Solar Power","Crude Oil"],
+        ans: 2,
+        exp: "Solar power is renewable — it harnesses energy from the sun which is an infinite resource."
+      },
+      {
+        q: "What is the main cause of deforestation globally?",
+        opts: ["Natural forest fires","Agricultural expansion","Tourism","Mining"],
+        ans: 1,
+        exp: "Agricultural expansion (clearing forests for farming) is the leading cause of global deforestation."
+      },
+      {
+        q: "Which layer of the atmosphere protects Earth from UV radiation?",
+        opts: ["Troposphere","Stratosphere","Ozone Layer","Mesosphere"],
+        ans: 2,
+        exp: "The Ozone Layer, found in the stratosphere, absorbs harmful UV radiation from the sun."
+      },
+      {
+        q: "How much of Earth's freshwater is accessible for human use?",
+        opts: ["Less than 1%","About 5%","Around 10%","About 25%"],
+        ans: 0,
+        exp: "Less than 1% of Earth's water is freshwater accessible for drinking and agriculture."
+      },
+      {
+        q: "Which country produces the most solar energy?",
+        opts: ["United States","Germany","India","China"],
+        ans: 3,
+        exp: "China is the world's largest producer and installer of solar energy capacity."
+      },
+      {
+        q: "What does 'biodiversity' mean?",
+        opts: [
+          "The variety of all living organisms on Earth",
+          "The study of dead organisms",
+          "A type of eco-friendly fuel",
+          "The process of recycling organic waste"
+        ],
+        ans: 0,
+        exp: "Biodiversity refers to the variety of all living organisms — plants, animals, fungi, and microorganisms."
+      },
+      {
+        q: "What is the 3R principle in sustainability?",
+        opts: [
+          "Run, Ride, Recycle",
+          "Reduce, Reuse, Recycle",
+          "Repair, Replace, Reshape",
+          "Read, Research, Report"
+        ],
+        ans: 1,
+        exp: "Reduce, Reuse, Recycle — Following these three steps significantly reduces our environmental footprint."
+      }
+    ];
+
+    let current = 0, score = 0, timer, timeLeft = 20;
+
+    function startQuiz() {
+      current = 0; score = 0;
+      document.getElementById('score-display').textContent = 0;
+      document.getElementById('result-area').style.display = 'none';
+      document.getElementById('quiz-content').style.display = 'block';
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      const q = questions[current];
+      clearInterval(timer);
+      timeLeft = 20;
+      updateTimer();
+
+      document.getElementById('question-num').textContent = `Question ${current + 1} of ${questions.length}`;
+      document.getElementById('question-text').textContent = q.q;
+      document.getElementById('progress-bar').style.width = `${(current / questions.length) * 100}%`;
+      document.getElementById('explanation').style.display = 'none';
+      document.getElementById('next-btn').style.display = 'none';
+
+      const container = document.getElementById('options-container');
+      container.innerHTML = '';
+      const letters = ['A','B','C','D'];
+      q.opts.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.id = 'option-' + i;
+        btn.innerHTML = `<span class="option-letter">${letters[i]}</span> ${opt}`;
+        btn.onclick = () => selectAnswer(i);
+        container.appendChild(btn);
+      });
+
+      timer = setInterval(() => {
+        timeLeft--;
+        updateTimer();
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          selectAnswer(-1); // Time's up
+        }
+      }, 1000);
+    }
+
+    function updateTimer() {
+      const el = document.getElementById('timer-text');
+      el.textContent = timeLeft + 's';
+      el.style.color = timeLeft <= 5 ? '#ef5350' : '#2e7d32';
+    }
+
+    function selectAnswer(selected) {
+      clearInterval(timer);
+      const q = questions[current];
+      const btns = document.querySelectorAll('.option-btn');
+      btns.forEach(b => b.disabled = true);
+
+      if (selected === q.ans) {
+        btns[selected].classList.add('correct');
+        score++;
+        document.getElementById('score-display').textContent = score;
+      } else {
+        if (selected >= 0) btns[selected].classList.add('wrong');
+        btns[q.ans].classList.add('correct');
+      }
+
+      const exp = document.getElementById('explanation');
+      exp.textContent = '💡 ' + q.exp;
+      exp.style.display = 'block';
+      document.getElementById('next-btn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      current++;
+      if (current < questions.length) {
+        loadQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      document.getElementById('quiz-content').style.display = 'none';
+      document.getElementById('result-area').style.display = 'block';
+      document.getElementById('progress-bar').style.width = '100%';
+
+      const pct = (score / questions.length) * 100;
+      let icon = '😊', label = 'Good effort! Keep learning!', pts = score * 5;
+      if (pct === 100) { icon = '🏆'; label = 'Perfect Score! You\'re an Eco Champion!'; pts = 100; }
+      else if (pct >= 80) { icon = '🌟'; label = 'Excellent! Amazing eco knowledge!'; }
+      else if (pct >= 60) { icon = '🌿'; label = 'Great job! You know your environment!'; }
+      else if (pct >= 40) { icon = '🌱'; label = 'Good start! Keep learning!'; }
+      else { icon = '📚'; label = 'Don\'t give up! Every expert was once a beginner!'; pts = 5; }
+
+      document.getElementById('result-icon').textContent = icon;
+      document.getElementById('result-score').textContent = score + '/' + questions.length;
+      document.getElementById('result-label').textContent = label;
+      document.getElementById('result-points').textContent = '+' + pts + ' Eco Points Earned!';
+
+      // Save score — MongoDB if logged in, else localStorage
+      saveScoreToDb(score, questions.length, pts);
+    }
+
+    function restartQuiz() { startQuiz(); }
+
+    startQuiz();
+  </script>
+
+  <!-- MongoDB API score saving -->
+  <script>
+    window.saveScoreToDb = async function(score, total, pts) {
+      // Always update localStorage
+      const saved = parseInt(localStorage.getItem('ecoPoints') || 0);
+      localStorage.setItem('ecoPoints', saved + pts);
+      // Update points display if on home page
+      const el = document.getElementById('points-count');
+      if (el) el.textContent = (saved + pts) + ' Points';
+      // If logged in, also save to MongoDB via API
+      const token = localStorage.getItem('ppToken');
+      if (!token) return;
+      try {
+        await fetch('/api/quizScore', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+          body: JSON.stringify({ quizType: 'eco-quiz', score, total, pointsEarned: pts })
+        });
+        console.log('Quiz score saved to MongoDB ✅');
+      } catch(e) {
+        console.warn('MongoDB score save skipped:', e.message);
+      }
+    };
+  </script>
+</body>
+</html>

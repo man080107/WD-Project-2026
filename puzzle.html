@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Eco Puzzle – Planet Playground</title>
+  <meta name="description" content="Solve eco-themed puzzles and earn Eco Points on Planet Playground.">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { background: linear-gradient(135deg, #e3f2fd, #e8f5e8); min-height: 100vh; font-family: 'Poppins', sans-serif; }
+    .puzzle-container { max-width: 900px; margin: 30px auto; padding: 20px; }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: #2e7d32; text-decoration: none; font-weight: 600; margin-bottom: 20px;
+      background: white; padding: 10px 20px; border-radius: 25px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1); transition: all 0.3s;
+    }
+    .back-btn:hover { background: #4caf50; color: white; transform: translateX(-4px); }
+    .puzzle-header {
+      background: white; border-radius: 20px; padding: 28px 32px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1); margin-bottom: 24px;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
+    }
+    .puzzle-title { font-size: 1.7em; color: #1565c0; font-weight: 700; }
+    .puzzle-subtitle { color: #888; font-size: 13px; margin-top: 4px; }
+    .puzzle-meta { display: flex; gap: 16px; flex-wrap: wrap; }
+    .meta-badge {
+      display: flex; align-items: center; gap: 6px;
+      background: #e3f2fd; color: #1565c0; padding: 8px 14px;
+      border-radius: 20px; font-size: 13px; font-weight: 600;
+    }
+
+    /* Word Bank */
+    .word-bank-section { background: white; border-radius: 20px; padding: 24px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); margin-bottom: 24px; }
+    .word-bank-title { font-size: 1.1em; color: #444; font-weight: 600; margin-bottom: 16px; }
+    .word-bank { display: flex; flex-wrap: wrap; gap: 10px; min-height: 60px; }
+    .word-chip {
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+      border: 2px solid #90caf9; border-radius: 25px;
+      padding: 8px 18px; font-size: 13px; font-weight: 600; color: #1565c0;
+      cursor: grab; user-select: none; transition: all 0.25s;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .word-chip:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    .word-chip.dragging { opacity: 0.5; cursor: grabbing; }
+    .word-chip.placed { opacity: 0.3; pointer-events: none; }
+
+    /* Categories */
+    .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 24px; }
+    .cat-box {
+      background: white; border-radius: 20px; padding: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      border-top: 5px solid var(--cat-color);
+    }
+    .cat-title { font-size: 1em; font-weight: 700; color: var(--cat-color); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .drop-zone {
+      min-height: 100px; background: #fafafa;
+      border: 2px dashed #ccc; border-radius: 14px; padding: 12px;
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-start;
+      transition: all 0.3s;
+    }
+    .drop-zone.drag-over { background: #e8f5e8; border-color: #4caf50; }
+    .drop-zone.correct-all { border-color: #4caf50; background: #e8f5e8; }
+    .drop-zone.has-wrong { border-color: #ef5350; background: #ffebee; }
+    .placed-chip {
+      padding: 6px 14px; border-radius: 20px;
+      font-size: 12px; font-weight: 600; cursor: pointer;
+      transition: all 0.25s; background: #e3f2fd; color: #1565c0; border: 2px solid #90caf9;
+    }
+    .placed-chip.correct-chip { background: #e8f5e8; color: #2e7d32; border-color: #4caf50; }
+    .placed-chip.wrong-chip { background: #ffebee; color: #c62828; border-color: #ef5350; }
+
+    /* Controls */
+    .puzzle-controls { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px; }
+    .check-btn {
+      padding: 13px 32px; background: linear-gradient(135deg, #1565c0, #1976d2);
+      color: white; border: none; border-radius: 25px; cursor: pointer;
+      font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px; transition: all 0.3s;
+    }
+    .check-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(21,101,192,0.4); }
+    .reset-btn {
+      padding: 13px 32px; background: #f5f5f5; color: #555;
+      border: 2px solid #ddd; border-radius: 25px; cursor: pointer;
+      font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px; transition: all 0.3s;
+    }
+    .reset-btn:hover { background: #ffebee; border-color: #ef5350; color: #c62828; }
+
+    /* Result */
+    .result-banner {
+      background: white; border-radius: 20px; padding: 28px; text-align: center;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12); display: none;
+    }
+    .result-banner.show { display: block; animation: popIn 0.4s ease; }
+    @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  </style>
+</head>
+<body>
+  <div class="puzzle-container">
+    <a href="SIH.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+
+    <div class="puzzle-header">
+      <div>
+        <div class="puzzle-title"><i class="fa-solid fa-puzzle-piece" style="color:#1565c0;"></i> Eco Word Sort</div>
+        <div class="puzzle-subtitle">Drag each word into the correct environmental category</div>
+      </div>
+      <div class="puzzle-meta">
+        <div class="meta-badge"><i class="fa-solid fa-coins"></i> +15 Eco Points</div>
+        <div class="meta-badge"><i class="fa-solid fa-list-check"></i> <span id="placed-count">0</span>/16 placed</div>
+      </div>
+    </div>
+
+    <!-- Word Bank -->
+    <div class="word-bank-section">
+      <div class="word-bank-title"><i class="fa-solid fa-grip"></i> Word Bank — Drag words to the correct category:</div>
+      <div class="word-bank" id="word-bank">
+        <!-- filled by JS -->
+      </div>
+    </div>
+
+    <!-- Categories -->
+    <div class="categories-grid" id="categories-grid">
+      <!-- filled by JS -->
+    </div>
+
+    <!-- Controls -->
+    <div class="puzzle-controls">
+      <button class="check-btn" id="check-btn" onclick="checkAnswers()"><i class="fa-solid fa-check"></i> Check Answers</button>
+      <button class="reset-btn" id="reset-btn" onclick="resetPuzzle()"><i class="fa-solid fa-rotate"></i> Reset</button>
+    </div>
+
+    <!-- Result -->
+    <div class="result-banner" id="result-banner">
+      <div style="font-size:3rem;margin-bottom:10px;" id="result-emoji">🌍</div>
+      <h2 style="color:#2e7d32;" id="result-heading">Well done!</h2>
+      <p style="color:#555;margin:12px 0;" id="result-text"></p>
+      <div style="font-size:1.3em;font-weight:700;color:#ff8f00;margin:16px 0;" id="result-pts"></div>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <button onclick="resetPuzzle()" style="padding:12px 28px;background:linear-gradient(135deg,#4caf50,#388e3c);color:white;border:none;border-radius:25px;cursor:pointer;font-weight:600;font-family:'Poppins',sans-serif;">Try Again</button>
+        <button onclick="window.location.href='SIH.html'" style="padding:12px 28px;background:#f1f8e9;color:#2e7d32;border:2px solid #4caf50;border-radius:25px;cursor:pointer;font-weight:600;font-family:'Poppins',sans-serif;">Home</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const data = {
+      categories: [
+        { name: 'Renewable Energy', icon: '⚡', color: '#f59e0b', words: ['Solar','Wind','Hydro','Geothermal'] },
+        { name: 'Types of Pollution', icon: '🏭', color: '#ef4444', words: ['Air','Water','Soil','Noise'] },
+        { name: 'Endangered Species', icon: '🦁', color: '#8b5cf6', words: ['Tiger','Rhino','Panda','Gorilla'] },
+        { name: 'Eco-Friendly Actions', icon: '♻️', color: '#10b981', words: ['Composting','Carpooling','Recycling','Planting'] },
+      ]
+    };
+
+    let draggedWord = null;
+    let allWords = data.categories.flatMap(c => c.words).sort(() => Math.random() - 0.5);
+    let placements = {}; // word -> category
+    let checked = false;
+
+    function buildUI() {
+      // Word bank
+      const bank = document.getElementById('word-bank');
+      bank.innerHTML = '';
+      allWords.forEach(w => {
+        const chip = document.createElement('div');
+        chip.className = 'word-chip';
+        chip.id = 'chip-' + w;
+        chip.textContent = w;
+        chip.draggable = true;
+        chip.addEventListener('dragstart', () => { draggedWord = w; chip.classList.add('dragging'); });
+        chip.addEventListener('dragend', () => chip.classList.remove('dragging'));
+        bank.appendChild(chip);
+      });
+
+      // Categories
+      const grid = document.getElementById('categories-grid');
+      grid.innerHTML = '';
+      data.categories.forEach(cat => {
+        const box = document.createElement('div');
+        box.className = 'cat-box';
+        box.style.setProperty('--cat-color', cat.color);
+        box.innerHTML = `
+          <div class="cat-title" style="color:${cat.color}">${cat.icon} ${cat.name}</div>
+          <div class="drop-zone" id="zone-${cat.name.replace(/\s+/g,'-')}"></div>
+        `;
+        const zone = box.querySelector('.drop-zone');
+        zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+        zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+        zone.addEventListener('drop', e => {
+          e.preventDefault();
+          zone.classList.remove('drag-over');
+          dropWord(draggedWord, cat.name, zone);
+        });
+        grid.appendChild(box);
+      });
+    }
+
+    function dropWord(word, catName, zone) {
+      if (!word) return;
+      // Remove from previous zone if already placed
+      if (placements[word]) {
+        const prevZoneId = 'zone-' + placements[word].replace(/\s+/g,'-');
+        const prevZone = document.getElementById(prevZoneId);
+        if (prevZone) {
+          const existingChip = prevZone.querySelector(`[data-word="${word}"]`);
+          if (existingChip) existingChip.remove();
+        }
+      }
+      placements[word] = catName;
+
+      // Hide from word bank
+      const bankChip = document.getElementById('chip-' + word);
+      if (bankChip) bankChip.classList.add('placed');
+
+      // Add to zone
+      const placed = document.createElement('div');
+      placed.className = 'placed-chip';
+      placed.textContent = word;
+      placed.dataset.word = word;
+      placed.title = 'Click to return to word bank';
+      placed.onclick = () => {
+        placedChipReturn(word, catName, zone);
+      };
+      zone.appendChild(placed);
+
+      updateCount();
+    }
+
+    function placedChipReturn(word, catName, zone) {
+      if (checked) return;
+      // Remove from zone
+      const chip = zone.querySelector(`[data-word="${word}"]`);
+      if (chip) chip.remove();
+      delete placements[word];
+      // Return to bank
+      const bankChip = document.getElementById('chip-' + word);
+      if (bankChip) bankChip.classList.remove('placed');
+      updateCount();
+    }
+
+    function updateCount() {
+      document.getElementById('placed-count').textContent = Object.keys(placements).length;
+    }
+
+    function checkAnswers() {
+      checked = true;
+      let correct = 0;
+      data.categories.forEach(cat => {
+        const zoneId = 'zone-' + cat.name.replace(/\s+/g,'-');
+        const zone = document.getElementById(zoneId);
+        const chips = zone.querySelectorAll('.placed-chip');
+        chips.forEach(chip => {
+          const word = chip.dataset.word;
+          if (cat.words.includes(word)) {
+            chip.classList.add('correct-chip'); correct++;
+          } else {
+            chip.classList.add('wrong-chip');
+          }
+        });
+      });
+
+      const total = allWords.length;
+      const pts = Math.round((correct / total) * 15);
+      const pct = Math.round((correct / total) * 100);
+
+      document.getElementById('result-banner').classList.add('show');
+      document.getElementById('result-banner').scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('result-emoji').textContent = pct === 100 ? '🏆' : pct >= 70 ? '🌟' : '🌱';
+      document.getElementById('result-heading').textContent = pct === 100 ? 'Perfect!' : pct >= 70 ? 'Great Job!' : 'Keep Trying!';
+      document.getElementById('result-text').textContent = `You got ${correct} out of ${total} words in the correct category.`;
+      document.getElementById('result-pts').textContent = `+${pts} Eco Points Earned!`;
+
+      // Save score — MongoDB if logged in, else localStorage
+      saveScoreToDb(correct, total, pts);
+    }
+
+    function resetPuzzle() {
+      checked = false;
+      placements = {};
+      allWords = allWords.sort(() => Math.random() - 0.5);
+      document.getElementById('result-banner').classList.remove('show');
+      buildUI();
+    }
+
+    buildUI();
+  </script>
+
+  <!-- MongoDB API score saving -->
+  <script>
+    window.saveScoreToDb = async function(score, total, pts) {
+      const saved = parseInt(localStorage.getItem('ecoPoints') || 0);
+      localStorage.setItem('ecoPoints', saved + pts);
+      const token = localStorage.getItem('ppToken');
+      if (!token) return;
+      try {
+        await fetch('/api/quizScore', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+          body: JSON.stringify({ quizType: 'puzzle', score, total, pointsEarned: pts })
+        });
+        console.log('Puzzle score saved to MongoDB ✅');
+      } catch(e) {
+        console.warn('MongoDB score save skipped:', e.message);
+      }
+    };
+  </script>
+</body>
+</html>

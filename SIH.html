@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Planet Playground – Learn & Innovate for Earth</title>
+  <meta name="description" content="Planet Playground is a fun, gamified learning platform for students to learn about the environment and innovate for a sustainable Earth.">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body id="home">
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar">
+    <div class="navbar-left">
+      <div class="logo"><i class="fa-solid fa-seedling"></i></div>
+      <h1 class="store-heading">Planet Playground</h1>
+    </div>
+    <div class="navbar-center">
+      <div class="search-container">
+        <input type="text" id="search-input" class="search" placeholder="Search games, content…" aria-label="Search">
+        <i class="fa-solid fa-magnifying-glass" id="search-icon" title="Search"></i>
+      </div>
+    </div>
+    <div class="navbar-right">
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#points" id="nav-points"><i class="fa-solid fa-coins"></i> Points</a>
+        <a href="#home"   id="nav-home"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="#help"   id="nav-help"><i class="fa-solid fa-circle-question"></i> Help</a>
+        <a href="#login"  id="nav-login"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== DB STATUS BANNER (shown briefly on load) ===== -->
+  <div id="db-banner" style="display:none; background:linear-gradient(135deg,#4caf50,#388e3c); color:white;
+       text-align:center; padding:8px; font-family:'Poppins',sans-serif; font-size:13px; font-weight:600;">
+    <i class="fa-solid fa-database"></i> ✅ Server Connected — MongoDB Database Ready!
+    <button onclick="document.getElementById('db-banner').style.display='none'"
+      style="background:none;border:none;color:white;cursor:pointer;margin-left:12px;">✕</button>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="hero-section">
+    <div class="hero-text">
+      <h1>Where students learn<br>&amp; innovate for Earth in Playful way!</h1>
+      <p class="hero-subtitle">Join thousands of young eco-heroes learning, playing, and earning rewards for saving the planet.</p>
+      <div class="hero-buttons">
+        <button class="shop-btn" id="play-now-btn"><i class="fa-solid fa-gamepad"></i> Play Now!</button>
+        <button class="learn-btn" id="learn-more-btn"
+          onclick="document.getElementById('learn').scrollIntoView({behavior:'smooth'})">
+          <i class="fa-solid fa-book-open"></i> Learn More
+        </button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item"><span class="stat-number">10K+</span><span class="stat-label">Students</span></div>
+        <div class="stat-item"><span class="stat-number">50+</span><span class="stat-label">Quizzes</span></div>
+        <div class="stat-item"><span class="stat-number">500K+</span><span class="stat-label">Eco Points Earned</span></div>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="After_members_complete_a_short_and_easy_quiz_at_-removebg-preview (1).png"
+           alt="Students learning environment science" />
+    </div>
+  </section>
+
+  <!-- ===== GAMES SECTION ===== -->
+  <section class="category-section" id="games">
+    <h2><i class="fa-solid fa-gamepad"></i> Games Corner!</h2>
+    <p class="section-subtitle">Choose a game and start earning Eco Points</p>
+    <div class="categories">
+      <div class="category" id="quiz-card">
+        <a href="quiz.html">
+          <img src="49d1cf27-b31f-4c8d-b3e4-f0cebbfe59dd-removebg-preview (1).png" alt="Quiz Game">
+          <h3><i class="fa-solid fa-brain"></i> Quiz</h3>
+          <p>Challenge the Mind, Conquer the Game</p>
+          <div class="card-badge">+10 Eco Points</div>
+        </a>
+      </div>
+      <div class="category" id="puzzle-card" style="cursor:pointer;"
+           onclick="window.location.href='puzzle.html'">
+        <img src="b10c606c-8987-4936-97d5-aa4aee1c7de5-removebg-preview (1).png" alt="Puzzle Game">
+        <h3><i class="fa-solid fa-puzzle-piece"></i> Puzzle</h3>
+        <p>Where Curiosity Meets Challenge</p>
+        <div class="card-badge">+15 Eco Points</div>
+      </div>
+      <div class="category" id="vidquiz-card" style="cursor:pointer;"
+           onclick="window.location.href='vidquiz.html'">
+        <img src="Video_App_Icon_brand_branding_logo_button_camera_-removebg-preview (1).png" alt="Video Quiz">
+        <h3><i class="fa-solid fa-video"></i> Vid Quiz</h3>
+        <p>Test Your Memory, Save the Planet</p>
+        <div class="card-badge">+20 Eco Points</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LEARNING CONTENT SECTION ===== -->
+  <section class="category-section content-section" id="learn">
+    <h2><i class="fa-solid fa-book-open"></i> Content Here!</h2>
+    <p class="section-subtitle">Tap a card to explore and learn</p>
+    <div class="categories">
+      <div class="category content-card" id="content-1" style="cursor:pointer;">
+        <img src="Photo_ecofriendly_signage_leaves_promote_-removebg-preview (1).png" alt="What is Environment">
+        <h3>1.</h3><p>What is Environment ?</p>
+        <div class="card-badge learn-badge">Read More →</div>
+      </div>
+      <div class="category content-card" id="content-2" style="cursor:pointer;">
+        <img src="green_forest_world_earth_day_green_forest_world_-removebg-preview (1).png" alt="Why Environment is needed">
+        <h3>2.</h3><p>Why it is needed ?</p>
+        <div class="card-badge learn-badge">Read More →</div>
+      </div>
+      <div class="category content-card" id="content-3" style="cursor:pointer;">
+        <img src="Hand_holding__be_Environmentally_Friendly__Hand_-removebg-preview (1).png" alt="Human and Environment">
+        <h3>3.</h3><p>Relation between human and Environment</p>
+        <div class="card-badge learn-badge">Read More →</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DAILY REWARDS SECTION ===== -->
+  <section class="daily-rewards-section" id="rewards">
+    <h2><i class="fa-solid fa-gift"></i> Daily Green Rewards!</h2>
+    <div class="rewards-container">
+      <div class="rewards-calendar">
+        <div class="reward-day claimed" id="reward-day-1" data-day="1" data-points="5">
+          <div class="day-number">Day 1</div>
+          <div class="reward-icon"><i class="fa-solid fa-seedling"></i></div>
+          <div class="reward-text">5 Eco Points</div>
+          <div class="reward-status claimed">Claimed</div>
+        </div>
+        <div class="reward-day active" id="reward-day-2" data-day="2" data-points="10">
+          <div class="day-number">Day 2</div>
+          <div class="reward-icon"><i class="fa-solid fa-leaf"></i></div>
+          <div class="reward-text">10 Eco Points</div>
+          <div class="reward-status available">Available</div>
+        </div>
+        <div class="reward-day" id="reward-day-3" data-day="3" data-points="0">
+          <div class="day-number">Day 3</div>
+          <div class="reward-icon"><i class="fa-solid fa-tree"></i></div>
+          <div class="reward-text">Quiz Badge</div>
+          <div class="reward-status locked">Locked</div>
+        </div>
+        <div class="reward-day" id="reward-day-4" data-day="4" data-points="15">
+          <div class="day-number">Day 4</div>
+          <div class="reward-icon"><i class="fa-solid fa-recycle"></i></div>
+          <div class="reward-text">15 Eco Points</div>
+          <div class="reward-status locked">Locked</div>
+        </div>
+        <div class="reward-day" id="reward-day-5" data-day="5" data-points="0">
+          <div class="day-number">Day 5</div>
+          <div class="reward-icon"><i class="fa-solid fa-globe"></i></div>
+          <div class="reward-text">Earth Badge</div>
+          <div class="reward-status locked">Locked</div>
+        </div>
+        <div class="reward-day" id="reward-day-6" data-day="6" data-points="20">
+          <div class="day-number">Day 6</div>
+          <div class="reward-icon"><i class="fa-solid fa-solar-panel"></i></div>
+          <div class="reward-text">20 Eco Points</div>
+          <div class="reward-status locked">Locked</div>
+        </div>
+        <div class="reward-day" id="reward-day-7" data-day="7" data-points="0">
+          <div class="day-number">Day 7</div>
+          <div class="reward-icon"><i class="fa-solid fa-award"></i></div>
+          <div class="reward-text">Weekly Champion</div>
+          <div class="reward-status locked">Locked</div>
+        </div>
+      </div>
+
+      <div class="eco-points-balance" id="points">
+        <h3><i class="fa-solid fa-coins"></i> Eco Points Balance</h3>
+        <div class="points-count" id="points-count">0 Points</div>
+        <div class="streak-info">
+          <i class="fa-solid fa-fire"></i>
+          <span id="streak-count">0</span> Day Streak!
+        </div>
+        <button class="redeem-btn" id="redeem-btn">
+          <i class="fa-solid fa-gift"></i> Redeem Rewards
+        </button>
+        <!-- Leaderboard trigger -->
+        <button class="redeem-btn" id="leaderboard-btn"
+          style="margin-top:10px;background:linear-gradient(135deg,#ff9800,#e65100);">
+          <i class="fa-solid fa-trophy"></i> Leaderboard
+        </button>
+      </div>
+    </div>
+    <div class="rewards-description">
+      <p>Complete daily activities to earn Eco Points and unlock special badges! The more consecutive days you learn, the better your rewards become.</p>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="company-info">
+          <div class="footer-logo">
+            <i class="fa-solid fa-seedling"></i>
+            <h3>Planet Playground</h3>
+          </div>
+          <p class="company-tagline">Empowering students to learn and innovate for a sustainable Earth through interactive gameplay.</p>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#games">Games</a></li>
+          <li><a href="#learn">Learning Content</a></li>
+          <li><a href="#rewards">Daily Rewards</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Contact Info</h4>
+        <p><i class="fa-solid fa-envelope"></i> info@planetplayground.edu</p>
+        <p><i class="fa-solid fa-phone"></i> +91 98765 43210</p>
+        <p><i class="fa-solid fa-map-marker-alt"></i> Surat, Gujarat, India</p>
+      </div>
+      <div class="footer-section">
+        <h4>Follow Us</h4>
+        <div class="social-links">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="copyright">
+        <p>&copy; 2025 Planet Playground Educational Solutions Pvt. Ltd. All Rights Reserved.</p>
+        <p class="legal-links">
+          <a href="#privacy">Privacy Policy</a> |
+          <a href="#terms">Terms of Service</a> |
+          <a href="#cookies">Cookie Policy</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Load main script as ES module (required for API imports) -->
+  <script type="module" src="script.js"></script>
+</body>
+</html>
